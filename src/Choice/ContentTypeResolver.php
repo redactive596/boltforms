@@ -127,7 +127,15 @@ class ContentTypeResolver extends AbstractChoiceOptionResolver
         }
 
         foreach ($records as $record) {
-            $choices[$record->get($params['label'])] = $record->get($params['value']);
+            if(is_array($params['label'])){
+                $params_label = '';
+                foreach ($params['label'] as $label) {
+                    $params_label .= $record->get($label)." ";
+                }
+                $choices[$params_label] = $record->get($params['value']);
+            }else{
+                $choices[$record->get($params['label'])] = $record->get($params['value']);
+            }
         }
 
         return $choices;
